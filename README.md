@@ -1,19 +1,23 @@
-# Teste de Back-end - T2C Group
+# UFCampus API
 
 Repositório com o código referente ao back-end do segundo trabalho da disciplina de Tecnologias Web II
 
 ```
-UFCampos-Back/
+ufcampus-back/
 │
 ├── scr/
 │   ├── controllers/
 │   │   ├── auth.controller.ts
+│   │   ├── email.controller.ts
 │   │   └── users.controller.ts
 │   ├── middlewares/
 │   │   └── authenticateToken.ts
+│   ├── models/
+│   │   ├── tarefa.model.ts
+│   │   └── user.model.ts
 │   ├── routes/
 │   │   ├── auth.ts
-│   │   ├── index.ts
+│   │   ├── email.ts
 │   │   └── users.ts
 │   └── server.ts
 │
