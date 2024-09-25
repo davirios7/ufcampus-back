@@ -23,7 +23,7 @@ export const authLogin = async (
     });
   }
 
-  if(typeof registration !== 'number') {
+  if (typeof registration !== 'number') {
     return res.status(400).json({
       status: 400,
       message: 'Matrícula deve ser um número.',

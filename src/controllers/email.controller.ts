@@ -25,9 +25,9 @@ export const sendEmail = async (
       text: 'teste',
     };
 
-      await transporter.sendMail(mailOptions);
+    await transporter.sendMail(mailOptions);
 
-      res.status(200).json({ message: 'E-mail enviado com sucesso!' });
+    res.status(200).json({ message: 'E-mail enviado com sucesso!' });
   } catch (error) {
     res.status(500).json({ error: `Falha ao enviar e-mail: ${error}` });
   }

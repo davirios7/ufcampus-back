@@ -17,7 +17,7 @@ export const createUser = async (
     });
   }
 
-  if(typeof registration !== 'number') {
+  if (typeof registration !== 'number') {
     return res.status(400).json({
       status: 400,
       message: 'Matrícula deve ser um número.',
@@ -81,7 +81,7 @@ export const createTarefa = async (
     });
   }
 
-  if(typeof registration !== 'number') {
+  if (typeof registration !== 'number') {
     return res.status(400).json({
       status: 400,
       message: 'Matrícula deve ser um número.',
@@ -89,7 +89,7 @@ export const createTarefa = async (
   }
 
   try {
-    const existingUser = await User.findOne({registration});
+    const existingUser = await User.findOne({ registration });
 
     if (!existingUser) {
       return res.status(400).json({
@@ -129,5 +129,4 @@ export const createTarefa = async (
       error: error.message,
     });
   }
-
-}
+};

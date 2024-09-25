@@ -48,7 +48,6 @@ const connectToMongo = async () => {
   }
 };
 
-
 const httpServer = http.createServer(app);
 const PORT = 3001;
 httpServer.listen(PORT, async () => {

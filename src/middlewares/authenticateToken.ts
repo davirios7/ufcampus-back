@@ -4,9 +4,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 const jwtSecret = process.env.JWTSECRET;
 
 if (!jwtSecret) {
-  throw new Error(
-    'JWTSECRET não estão definidas no arquivo .env'
-  );
+  throw new Error('JWTSECRET não estão definidas no arquivo .env');
 }
 
 export const authenticateToken = (
