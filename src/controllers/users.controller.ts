@@ -99,10 +99,8 @@ export const createTarefa = async (
       description,
       startDate,
       endDate,
-      id_usuario,
+      registration: id_usuario,
     });
-
-    console.log(newTarefa)
 
     await newTarefa.save();
 
