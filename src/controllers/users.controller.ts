@@ -84,15 +84,25 @@ export const createTarefa = async (
       });
     }
 
-    const user_id = existingUser._id;
+    const user_id: string = existingUser._id as string;
+    if (user_id == null) {
+      return res.status(400).json({
+        status: 400,
+        message: 'Usuário não encontrado.',
+      });
+    }
+
+    const id_usuario: string = user_id.toString();
 
     const newTarefa = new Tarefa({
       title,
       description,
       startDate,
       endDate,
-      user_id,
+      id_usuario,
     });
+
+    console.log(newTarefa)
 
     await newTarefa.save();
 
