@@ -17,6 +17,13 @@ export const createUser = async (
     });
   }
 
+  if(typeof registration !== 'number') {
+    return res.status(400).json({
+      status: 400,
+      message: 'Matrícula deve ser um número.',
+    });
+  }
+
   try {
     const existingUser = await User.findOne({ email });
 
