@@ -10,10 +10,10 @@ export const createUser = async (
 ) => {
   const { email, password, registration, username } = req.body;
 
-  if (!username || !password || !email) {
+  if (!username || !password || !email || !registration) {
     return res.status(400).json({
       status: 400,
-      message: 'E-mail, usuário e password são obrigatórios.',
+      message: 'E-mail, usuário, senha e matrícula são obrigatórios.',
     });
   }
 
@@ -27,9 +27,9 @@ export const createUser = async (
       });
     }
 
-    const existingregistration = await User.findOne({ registration });
+    const existingRegistration = await User.findOne({ registration });
 
-    if (existingregistration) {
+    if (existingRegistration) {
       return res.status(400).json({
         status: 400,
         message: 'Matrícula já cadastrada.',
@@ -42,7 +42,7 @@ export const createUser = async (
       email,
       username,
       password: hashedPassword,
-      registration, 
+      registration,
     });
 
     await newUser.save();
