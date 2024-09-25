@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import User from '../models/user.model';
 
 const jwtSecret = process.env.JWTSECRET;
 
@@ -23,7 +24,7 @@ export const authLogin = async (
   }
 
   try {
-    const user = 'true';
+    const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(401).json({
@@ -32,7 +33,7 @@ export const authLogin = async (
       });
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
       return res.status(401).json({
@@ -42,7 +43,7 @@ export const authLogin = async (
     }
 
     const token = jwt.sign(
-      { userId: user, username: user, email: user },
+      { userId: user._id, username: user.username, email: user.email },
       jwtSecret,
       { expiresIn: '1h' }
     );
