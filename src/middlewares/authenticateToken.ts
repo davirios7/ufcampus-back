@@ -1,67 +1,35 @@
-import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import User from '../models/user.model';
+import { Request, Response, NextFunction } from 'express';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 const jwtSecret = process.env.JWTSECRET;
 
 if (!jwtSecret) {
-  throw new Error('JWTSECRET não está definido no arquivo .env');
+  throw new Error(
+    'JWTSECRET não estão definidas no arquivo .env'
+  );
 }
 
-export const loginUser = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+export const authenticateToken = (
+  req: Request & { user?: string | JwtPayload },
+  res: Response,
+  next: NextFunction
+) => {
+  const token = req.cookies.acessToken;
 
-  if (!email || !password) {
-    return res.status(400).json({
-      status: 400,
-      message: 'E-mail e senha são obrigatórios.',
-    });
-  }
-
-  try {
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({
-        status: 400,
-        message: 'Usuário não encontrado.',
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, jwtSecret);
+      req.user = decoded;
+      return next();
+    } catch (error) {
+      return res.status(401).json({
+        status: 401,
+        message: 'Access Token inválido.',
       });
     }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(400).json({
-        status: 400,
-        message: 'Senha incorreta.',
-      });
-    }
-
-    const accessToken = jwt.sign(
-      {
-        userId: user._id,
-        username: user.username,
-        email: user.email,
-      },
-      jwtSecret,
-      { expiresIn: '1h' }
-    );
-
-    res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'lax',
-      maxAge: 3600000,
-    });
-
-    return res.status(200).json({
-      status: 200,
-      message: 'Login realizado com sucesso!',
-    });
-  } catch (error: any) {
-    return res.status(500).json({
-      status: 500,
-      message: 'Erro interno do servidor.',
-      error: error.message,
-    });
   }
+  return res.status(403).json({
+    status: 403,
+    message: 'Acesso Negado. Usuário não logado.',
+  });
 };
