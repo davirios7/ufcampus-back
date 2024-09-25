@@ -14,22 +14,22 @@ export const authLogin = async (
   res: Response,
   _next: NextFunction
 ) => {
-  const { email, password } = req.body;
+  const { registration, password } = req.body;
 
-  if (!email || !password) {
+  if (!registration || !password) {
     return res.status(400).json({
       status: 400,
-      message: 'E-mail e Senha são obrigatórios.',
+      message: 'Matrícula e Senha são obrigatórios.',
     });
   }
 
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ registration });
 
     if (!user) {
       return res.status(401).json({
         status: 401,
-        message: 'E-mail ou Senha inválidos.',
+        message: 'Matrícula ou Senha inválidos.',
       });
     }
 
@@ -38,7 +38,7 @@ export const authLogin = async (
     if (!isPasswordValid) {
       return res.status(401).json({
         status: 401,
-        message: 'E-mail ou Senha inválidos.',
+        message: 'Matrícula ou Senha inválidos.',
       });
     }
 
