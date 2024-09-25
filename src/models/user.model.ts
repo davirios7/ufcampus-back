@@ -1,16 +1,13 @@
 import mongoose, { Schema, Document } from 'mongoose';
-
-// Interface para definir o tipo do documento User
 export interface IUser extends Document {
-  name: string;
+  username: string;
   email: string;
   password: string;
-  matricula: string;
+  registration: string;
 }
 
-// Definindo o Schema do Mongoose para User
 const UserSchema: Schema = new Schema({
-  nome: {
+  username: {
     type: String,
     required: true,
   },
@@ -19,16 +16,15 @@ const UserSchema: Schema = new Schema({
     required: true,
     unique: true,
   },
-  senha: {
+  password: {
     type: String,
     required: true,
   },
-  matricula: {
+  registration: {
     type: String,
     required: true,
     unique: true,
   },
 });
 
-// Exporta o modelo baseado no schema
 export default mongoose.model<IUser>('User', UserSchema);

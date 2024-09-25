@@ -1,34 +1,35 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import { IUser } from './user.model'; // Importe a interface IUser
-
-// Interface para definir o tipo do documento Tarefa
+import { IUser } from './user.model';
 export interface ITarefa extends Document {
-  titulo: string;
-  descricao: string;
-  data: Date;
-  id_user: IUser['_id']; // Referência ao ID do usuário
+  title: string;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  id_user: IUser['_id'];
 }
 
-// Definindo o Schema do Mongoose para Tarefa
 const TarefaSchema: Schema = new Schema({
-  titulo: {
+  title: {
     type: String,
     required: true,
   },
-  descricao: {
+  description: {
     type: String,
+    required: false,
+  },
+  startDate: {
+    type: Date,
     required: true,
   },
-  data: {
+  endDate: {
     type: Date,
     required: true,
   },
   id_user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Faz referência ao modelo User
+    ref: 'User',
     required: true,
   },
 });
 
-// Exporta o modelo baseado no schema
 export default mongoose.model<ITarefa>('Tarefa', TarefaSchema);

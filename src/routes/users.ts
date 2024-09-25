@@ -1,8 +1,8 @@
 import express from 'express';
-import { createUser } from '../controllers/users.controller';
+import { createUser, createTarefa } from '../controllers/users.controller';
 const router = express.Router();
 
-// Rotas de usuários
 router.post('/cadastrar', createUser);
+router.post('/criar_tarefa', createTarefa);
 
 export default router;
