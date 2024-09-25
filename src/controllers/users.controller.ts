@@ -65,17 +65,17 @@ export const createTarefa = async (
   res: Response,
   _next: NextFunction
 ) => {
-  const { title, description, startDate, endDate, id_user } = req.body;
+  const { title, description, startDate, endDate, registration } = req.body;
 
-  if (!title || !startDate || !endDate) {
+  if (!title || !startDate || !endDate || !registration) {
     return res.status(400).json({
       status: 400,
-      message: 'Título e Data são obrigatórios.',
+      message: 'Título e Data e Matrícula são obrigatórios.',
     });
   }
 
   try {
-    const existingUser = await User.findById(id_user);
+    const existingUser = await User.findOne({registration});
 
     if (!existingUser) {
       return res.status(400).json({
@@ -84,12 +84,14 @@ export const createTarefa = async (
       });
     }
 
+    const user_id = existingUser._id;
+
     const newTarefa = new Tarefa({
       title,
       description,
       startDate,
       endDate,
-      id_user,
+      user_id,
     });
 
     await newTarefa.save();
