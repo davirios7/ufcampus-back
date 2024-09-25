@@ -3,7 +3,7 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
-  registration: string;
+  registration: number;
 }
 
 const UserSchema: Schema = new Schema({
@@ -21,7 +21,7 @@ const UserSchema: Schema = new Schema({
     required: true,
   },
   registration: {
-    type: String,
+    type: Number,
     required: true,
     unique: true,
   },
