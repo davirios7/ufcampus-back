@@ -25,7 +25,7 @@ const TarefaSchema: Schema = new Schema({
     type: Date,
     required: true,
   },
-  id_user: {
+  registration: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
