@@ -1,6 +1,11 @@
 import express from 'express';
 const router = express.Router();
-import { createTarefa, editTarefa, getTarefas, deleteTarefa } from '../controllers/tasks.controller';
+import {
+  createTarefa,
+  editTarefa,
+  getTarefas,
+  deleteTarefa,
+} from '../controllers/tasks.controller';
 
 router.post('/criar_tarefa', createTarefa);
 router.post('/editar_tarefa', editTarefa);

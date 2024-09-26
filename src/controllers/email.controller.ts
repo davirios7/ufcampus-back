@@ -9,10 +9,9 @@ export const sendEmail = async (
 ) => {
   const { email, id_tarefa } = req.body;
   try {
-
     const tarefa = await Tarefa.findOne({ _id: id_tarefa });
 
-    const hora_envio = (tarefa?.endDate?.getTime() ?? 0) - (1 * 60 * 60 * 1000);
+    const hora_envio = (tarefa?.endDate?.getTime() ?? 0) - 1 * 60 * 60 * 1000;
 
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
