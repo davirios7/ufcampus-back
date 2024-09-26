@@ -74,3 +74,67 @@ export const authLogin = async (
     });
   }
 };
+
+export const createUser = async (
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) => {
+  const { email, password, registration, username } = req.body;
+
+  if (!username || !password || !email || !registration) {
+    return res.status(400).json({
+      status: 400,
+      message: 'E-mail, usuário, senha e matrícula são obrigatórios.',
+    });
+  }
+
+  if (typeof registration !== 'number') {
+    return res.status(400).json({
+      status: 400,
+      message: 'Matrícula deve ser um número.',
+    });
+  }
+
+  try {
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).json({
+        status: 400,
+        message: 'E-mail já cadastrado.',
+      });
+    }
+
+    const existingRegistration = await User.findOne({ registration });
+
+    if (existingRegistration) {
+      return res.status(400).json({
+        status: 400,
+        message: 'Matrícula já cadastrada.',
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new User({
+      email,
+      username,
+      password: hashedPassword,
+      registration,
+    });
+
+    await newUser.save();
+
+    return res.status(200).json({
+      status: 200,
+      message: 'Usuário criado com sucesso!',
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      status: 500,
+      message: 'Erro interno do servidor.',
+      error: error.message,
+    });
+  }
+};

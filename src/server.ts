@@ -6,7 +6,7 @@ import http from 'http';
 import express, { Express } from 'express';
 import morgan from 'morgan';
 import authRoutes from './routes/auth';
-import userRoutes from './routes/users';
+import tasksRoutes from './routes/tasks';
 import emailRoutes from './routes/email';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -28,8 +28,8 @@ app.use(
 );
 
 app.use('/', authRoutes);
-app.use('/', userRoutes);
 app.use('/', emailRoutes);
+app.use('/', tasksRoutes);
 
 app.use((_req, res, _next) => {
   const error = new Error('404 Not found');

@@ -1,13 +1,19 @@
 import { Request, Response, NextFunction } from 'express';
 import nodemailer from 'nodemailer';
+import Tarefa from '../models/tarefa.model';
 
 export const sendEmail = async (
   req: Request,
   res: Response,
   _next: NextFunction
 ) => {
-  const { email } = req.body;
+  const { email, id_tarefa } = req.body;
   try {
+
+    const tarefa = await Tarefa.findOne({ _id: id_tarefa });
+
+    const hora_envio = (tarefa?.endDate?.getTime() ?? 0) - (1 * 60 * 60 * 1000);
+
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
@@ -21,7 +27,7 @@ export const sendEmail = async (
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
-      subject: 'TESTE',
+      subject: `Seu Lembrete da Tarefa ${tarefa?.title}`,
       text: 'teste',
     };
 
