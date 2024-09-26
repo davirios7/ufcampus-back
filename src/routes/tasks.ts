@@ -7,9 +7,9 @@ import {
   deleteTarefa,
 } from '../controllers/tasks.controller';
 
-router.post('/criar_tarefa', createTarefa);
-router.post('/editar_tarefa', editTarefa);
 router.get('/obter_tarefas', getTarefas);
+router.post('/criar_tarefa', createTarefa);
+router.put('/editar_tarefa', editTarefa);
 router.delete('/excluir_tarefa', deleteTarefa);
 
 export default router;
