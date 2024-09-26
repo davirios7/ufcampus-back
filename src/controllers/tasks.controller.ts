@@ -176,7 +176,7 @@ export const deleteTarefa = async (
   res: Response,
   _next: NextFunction
 ) => {
-  const { id_tarefa } = req.body;
+  const { id_tarefa } = req.params;
 
   if (!id_tarefa) {
     return res.status(400).json({

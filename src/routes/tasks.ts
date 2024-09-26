@@ -10,6 +10,6 @@ import {
 router.get('/obter_tarefas', getTarefas);
 router.post('/criar_tarefa', createTarefa);
 router.put('/editar_tarefa/:id_tarefa', editTarefa);
-router.delete('/excluir_tarefa', deleteTarefa);
+router.delete('/excluir_tarefa/:id_tarefa', deleteTarefa);
 
 export default router;
