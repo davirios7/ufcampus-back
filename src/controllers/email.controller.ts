@@ -22,8 +22,16 @@ export const sendEmail = async (
     }
 
     const hora_envio = new Date(endDate);
-    hora_envio.setHours(hora_envio.getHours() - 1);
     
+    hora_envio.setHours(hora_envio.getHours() - 1);
+
+    if (hora_envio.getHours() < 0) {
+      hora_envio.setHours(23);
+      hora_envio.setDate(hora_envio.getDate() - 1);
+    }
+
+    const cronExpression = `${hora_envio.getMinutes()} ${hora_envio.getUTCHours()} ${hora_envio.getDate()} ${hora_envio.getMonth() + 1} *`;
+
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
@@ -44,15 +52,13 @@ export const sendEmail = async (
           <p>Olá,</p>
           <p>Este é um lembrete de que a tarefa <strong>"${tarefa.title}"</strong> começará em uma hora.</p>
           <p>Por favor, esteja preparado para iniciar a tarefa no horário programado.</p>
-          <p>Atenciosamente,<br>Sua Equipe de Gerenciamento de Tarefas</p>
+          <p>Atenciosamente,<br>Sua Equipe de Gerenciamento de Tarefas, UFCampus Ltda.</p>
           <footer style="margin-top: 20px; padding-top: 10px; border-top: 1px solid #ddd; font-size: 0.9em; color: #777;">
             <p>Este é um e-mail automático, por favor, não responda.</p>
           </footer>
         </div>
       `,
     };
-
-    const cronExpression = `${hora_envio.getMinutes()} ${hora_envio.getHours()} ${hora_envio.getDate()} ${hora_envio.getMonth()} *`;
 
     cron.schedule(cronExpression, async () => {
       try {
