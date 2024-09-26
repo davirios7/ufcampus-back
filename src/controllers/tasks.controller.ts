@@ -71,7 +71,8 @@ export const editTarefa = async (
   res: Response,
   _next: NextFunction
 ) => {
-  const { id_tarefa, title, description, startDate, endDate } = req.body;
+  const { title, description, startDate, endDate } = req.body;
+  const { id_tarefa } = req.params;
 
   if (!id_tarefa || !title || !startDate || !endDate) {
     return res.status(400).json({
@@ -91,7 +92,7 @@ export const editTarefa = async (
     }
 
     await Tarefa.updateOne(
-      { id_tarefa },
+      { _id: id_tarefa },
       {
         title,
         description,
@@ -112,6 +113,7 @@ export const editTarefa = async (
     });
   }
 };
+
 
 export const getTarefas = async (
   req: Request,
