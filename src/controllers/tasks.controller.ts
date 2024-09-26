@@ -114,7 +114,6 @@ export const editTarefa = async (
   }
 };
 
-
 export const getTarefas = async (
   req: Request,
   res: Response,
@@ -176,9 +175,9 @@ export const deleteTarefa = async (
   res: Response,
   _next: NextFunction
 ) => {
-  const { id_tarefa } = req.params;
+  const { id } = req.query;
 
-  if (!id_tarefa) {
+  if (!id) {
     return res.status(400).json({
       status: 400,
       message: 'ID é obrigatório.',
@@ -186,7 +185,7 @@ export const deleteTarefa = async (
   }
 
   try {
-    const existingTarefa = await Tarefa.findOne({ _id: id_tarefa });
+    const existingTarefa = await Tarefa.findOne({ _id: id });
 
     if (!existingTarefa) {
       return res.status(400).json({
@@ -195,7 +194,7 @@ export const deleteTarefa = async (
       });
     }
 
-    await Tarefa.deleteOne({ id_tarefa });
+    await Tarefa.deleteOne({ _id: id });
 
     return res.status(200).json({
       status: 200,
